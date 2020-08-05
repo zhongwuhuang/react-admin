@@ -1,13 +1,13 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
-import './style/base.css'
+import './style/reset.css'
 // 引入antd样式文件
 import 'antd/dist/antd.css';
 
 // 公共模块
 // const Main = loadable(() => import(/* webpackChunkName: 'default' */ './layout/Main'))
-import Main from './layout/Main'
+import Main from './layout/Main.jsx'
 
 // 基础页面
 // const View404 = loadable(() => import(/* webpackChunkName: '404' */ './views/Error/404'))
@@ -25,7 +25,9 @@ function App() {
         <Route path='/500' component={View500} />
         <Route path='/login' component={Login} />
         <Route path='/404' component={View404} />
-        <Route component={Main} />
+        <Route component={Main} onEnter={(nexState, replace) => {
+          console.log(nexState, replace);
+        }}/>
       </Switch>
     </Router>
   );
