@@ -3,9 +3,10 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { Layout, BackTop, message  } from 'antd'
 
 import Aside from './Aside.jsx'
+import Header from './Header.jsx'
 import './Main.less'
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 class Main extends Component {
     state = {
@@ -101,8 +102,8 @@ class Main extends Component {
                             minHeight: 280,
                         }}
                     >
-                        Content
-          </Content>
+                        <Header/>
+                    </Content>
                 </Layout>
             </Layout>
         )

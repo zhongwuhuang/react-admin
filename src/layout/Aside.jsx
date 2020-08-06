@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
+import { Layout, Menu } from 'antd'
 import {
     DesktopOutlined,
     PieChartOutlined,
