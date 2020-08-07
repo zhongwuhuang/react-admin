@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { Layout, BackTop, message  } from 'antd'
 
-import Aside from './Aside.jsx'
-import Header from './Header.jsx'
-import './Main.less'
+import AppAside from './AppAside.jsx'
+import AppHeader from './AppHeader.jsx'
+import './AppMain.less'
 
 const { Content } = Layout;
 
-class Main extends Component {
+class AppMain extends Component {
     state = {
         collapsed: false,
         menu: []
@@ -91,18 +91,12 @@ class Main extends Component {
                     <div style={style}>UP</div>
                 </BackTop>
 
-                <Aside menu={this.state.menu}/>
+                <AppAside menu={this.state.menu}/>
 
                 <Layout className="site-layout">
-                    <Content
-                        className="site-layout-background"
-                        style={{
-                            margin: '24px 16px',
-                            padding: 24,
-                            minHeight: 280,
-                        }}
-                    >
-                        <Header/>
+                    <AppHeader/>
+                    <Content className="content" >
+                        <div style={{height:'300px'}}></div>
                     </Content>
                 </Layout>
             </Layout>
@@ -110,4 +104,4 @@ class Main extends Component {
     }
 }
 
-export default withRouter(Main);
+export default withRouter(AppMain);

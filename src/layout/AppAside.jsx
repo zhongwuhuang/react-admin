@@ -8,12 +8,12 @@ import {
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import './Aside.less'
+import './AppAside.less'
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-class Aside extends Component {
+class AppAside extends Component {
     state = {
         collapsed: false,
         openKeys: [],
@@ -127,4 +127,4 @@ class Aside extends Component {
     }
 }
 
-export default withRouter(Aside);
+export default withRouter(AppAside);
