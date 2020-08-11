@@ -7,7 +7,7 @@ import 'antd/dist/antd.css';
 
 // 公共模块
 // const Main = loadable(() => import(/* webpackChunkName: 'default' */ './layout/Main'))
-import AppMain from './layout/AppMain.jsx'
+import AppMain from './Layout/AppMain.jsx'
 
 // 基础页面
 // const View404 = loadable(() => import(/* webpackChunkName: '404' */ './views/Error/404'))

@@ -11,7 +11,8 @@ const { Content } = Layout;
 class AppMain extends Component {
     state = {
         collapsed: false,
-        menu: []
+        menu: [],
+        routes: [],
     }
 
     isLogin = () => {
@@ -28,6 +29,8 @@ class AppMain extends Component {
             {
                 title: '首页',
                 key: '/index',
+                exact: true,
+                component: '/Index/Index',
                 icon: 'PieChartOutlined',
             },
             {
@@ -35,8 +38,20 @@ class AppMain extends Component {
                 key: '/public',
                 icon: 'PieChartOutlined',
                 subs: [
-                    { title: '按钮', key: '/public/button', icon: 'PieChartOutlined' },
-                    { title: '图标', key: '/public/icon', icon: 'PieChartOutlined' }
+                    { 
+                        title: '按钮', 
+                        key: '/public/button', 
+                        exact: true,
+                        component: '/Public/Button/Button',
+                        icon: 'PieChartOutlined' 
+                    },
+                    { 
+                        title: '图标', 
+                        key: '/public/icon', 
+                        exact: true,
+                        component: '/Public/Icon/Icon',
+                        icon: 'PieChartOutlined' 
+                    }
                 ]
             },
             {
@@ -48,22 +63,26 @@ class AppMain extends Component {
                         title: '二级',
                         key: '/one/two',
                         icon: 'PieChartOutlined',
-                        subs: [{ title: '三级', key: '/one/two/three', icon: 'PieChartOutlined' }]
+                        subs: [
+                            { 
+                                title: '三级', 
+                                key: '/one/two/three', 
+                                exact: true,
+                                component: '/One/Two/Three/Three',
+                                icon: 'PieChartOutlined' 
+                            }
+                        ]
                     }
                 ]
             },
             {
                 title: '关于',
                 key: '/about',
+                exact: true,
+                component: '/About/About',
                 icon: 'PieChartOutlined',
             }
         ]
-    }
-
-    loginOut = () => {
-        localStorage.clear()
-        this.props.history.push('/login')
-        message.success('登出成功!')
     }
 
     componentDidMount() {
@@ -71,6 +90,24 @@ class AppMain extends Component {
         this.setState({
             menu: this.getMenu()
         })
+        const menus = this.getMenu()
+        let routes = []
+        function getRoutes(menus) {
+            menus.map(async (item) => {
+                if(!item.subs){
+                    const res = await import(`../views${item.component}.jsx`)
+                    item.comp = res.default
+                    routes.push(item)
+                }
+                if (item.subs){
+                    getRoutes(item.subs)
+                }
+            })
+        }
+        getRoutes(menus)
+        this.setState({
+            routes
+        })        
     }
 
 
@@ -85,6 +122,7 @@ class AppMain extends Component {
             textAlign: 'center',
             fontSize: 14,
         };        
+        const routes = this.state.routes
         return (
             <Layout className='app'>
                 <BackTop className="ant_back_top">
@@ -96,7 +134,27 @@ class AppMain extends Component {
                 <Layout className="site-layout">
                     <AppHeader/>
                     <Content className="content" >
-                        <div style={{height:'300px'}}></div>
+                        <Switch>
+                            {
+                                routes.map(item => {
+                                    return (
+                                        <Route
+                                            key={item.key}
+                                            path={item.key}
+                                            exact={item.exact}
+                                            // render={
+                                            //     props => (<item.comp {...props}/>)
+                                            // }
+                                        >
+                                            <item.comp {...this.props}/>
+                                        </Route>
+                                    )
+                                })
+                            }
+                            {/* <Route path="/index">index</Route>
+                            <Route path="/about">about</Route> */}
+                            {/* <Redirect to='/404' /> */}
+                        </Switch>
                     </Content>
                 </Layout>
             </Layout>

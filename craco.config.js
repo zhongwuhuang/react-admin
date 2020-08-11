@@ -1,7 +1,22 @@
 /* craco.config.js */
 const CracoLessPlugin = require("craco-less");
+const path = require('path');
+const pathResolve = pathUrl => path.join(__dirname, pathUrl)
 
 module.exports = {
+    // resolve: {
+    //     extensions: ['.jsx', '.js', '.css', '.less'],
+    //     alias: {
+    //         '@': path.resolve(__dirname, './src'),
+    //         '@views': path.resolve(__dirname, './src/views'),
+    //     }
+    // },  
+    webpack: {
+        alias: {
+            '@': pathResolve('src'),
+            '@views': pathResolve('src/views'),
+        }
+    },      
     devServer: {
         hot: true, //热加载
         historyApiFallback: true,
@@ -15,12 +30,12 @@ module.exports = {
         },
         proxy: [
             {
-                context: ['/Help'],
-                target: 'http://10.48.186.92/wnjzyh/api_test/Help',
+                context: ['/test_api'],
+                target: 'https://www.fastmock.site/mock/2b4ef38b241be69e16617588a8e1f225/',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
-                    '^/Help': '/'
+                    '^/test_api': '/test_api'
                 }
             }
         ]
