@@ -1,16 +1,35 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom' 
-import { Layout, Input, Icon, Checkbox, Form, Button, Divider, message, notification } from 'antd'
+import { 
+    Checkbox, 
+    Button, 
+    Input, 
+    Form, 
+    // Layout, 
+    // Icon, 
+    // Divider, 
+    // message, 
+    // notification 
+} from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { login } from '@/api/login'
+
 import './login.less'
 
 class Login extends Component {
 
     render() {
-        console.log(this.props);
-
-        const onFinish = values => {
-            console.log('Success:', values);
+        const onFinish = async (values) => {
+            const { username, password } = values
+            const params = {username, password}
+            const res = await login(params)
+            // console.log(res);
+            if (res.IsSuccess){
+                if (res.data.verifySuccess){
+                    localStorage.setItem('token',res.data.userInfo.token)
+                    this.props.history.replace('/') // replace表示没有上一次的历史记录
+                }
+            }
         };
 
         const onFinishFailed = errorInfo => {
@@ -61,9 +80,9 @@ class Login extends Component {
                             <Checkbox>Remember me</Checkbox>
                         </Form.Item>
 
-                        <a className="form_forgot" href="javascript:;">
+                        <span className="form_forgot">
                             Forgot password
-                        </a>
+                        </span>
                     </Form.Item>                    
 
                     <Form.Item>
@@ -75,5 +94,5 @@ class Login extends Component {
     }
 }
 
-// export default withRouter(Form.create()(Login))
-export default (Login)
+export default withRouter(Login)
+// export default (Login)

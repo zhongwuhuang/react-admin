@@ -1,23 +1,38 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
+import * as icons from '@ant-design/icons';
 import './AppAside.less'
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
+// const { SubMenu } = Menu;
 
 class AppAside extends Component {
     state = {
         collapsed: false,
         openKeys: [],
         selectedKeys: []
+    }    
+
+    // 页面刷新的时候可以定位到 menu 显示
+    componentDidMount() {
+        let { pathname } = this.props.location
+        this.setState({
+            selectedKeys: [pathname],
+            openKeys: this.getOpenKeys(pathname)
+        })
+    }    
+
+    // 处理 pathname
+    getOpenKeys = string => {
+        let newStr = '',
+            newArr = [],
+            arr = string.split('/').map(i => '/' + i)
+        for (let i = 1; i < arr.length - 1; i++) {
+            newStr += arr[i]
+            newArr.push(newStr)
+        }
+        return newArr
     }    
 
     onCollapse = collapsed => {
@@ -49,11 +64,15 @@ class AppAside extends Component {
         }
     }    
 
+    // React.createElement（ 节点名称 ，节点属性集合，内容集合 ）
+    iconBC = (name) => {
+        return React.createElement(icons && icons[name],{style:{fontSize:'16px'}})
+    }
+
     // 循环遍历导航
     renderMenuItem = ({ key, icon, title }) => (
-        <Menu.Item key={key} icon={<PieChartOutlined />}>
+        <Menu.Item key={key} icon={icon && this.iconBC(icon)}>
             <Link to={key}>
-                {/* {icon && <Icon type={icon} />} */}
                 <span>{title}</span>
             </Link>
         </Menu.Item>
@@ -64,13 +83,9 @@ class AppAside extends Component {
         return (
             <Menu.SubMenu
                 key={key}
-                icon={<PieChartOutlined />}
-                title={
-                    <span>
-                        {/* {icon && <Icon type={icon} />} */}
-                        <span>{title}</span>
-                    </span>
-                }>
+                icon={icon && this.iconBC(icon)}
+                title={<span>{title}</span>}
+            >
                 {
                     subs && subs.map(item => {
                         return item.subs && item.subs.length > 0 ? this.renderSubMenu(item) : this.renderMenuItem(item)
@@ -102,28 +117,6 @@ class AppAside extends Component {
                 </Menu>
             </Sider>
         )        
-        return (
-            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-                <div className="logo" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                    <Menu.Item key="1" icon={<PieChartOutlined />}>
-                        Option 1
-                    </Menu.Item>
-                    <Menu.Item key="2" icon={<DesktopOutlined />}>
-                        Option 2
-                    </Menu.Item>
-                    <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                        <Menu.Item key="3">Tom</Menu.Item>
-                        <Menu.Item key="4">Bill</Menu.Item>
-                        <Menu.Item key="5">Alex</Menu.Item>
-                    </SubMenu>
-                    <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                        <Menu.Item key="6">Team 1</Menu.Item>
-                        <Menu.Item key="8">Team 2</Menu.Item>
-                    </SubMenu>
-                </Menu>
-            </Sider>
-        )
     }
 }
 

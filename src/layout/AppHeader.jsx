@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Menu, Dropdown, Icon, Layout, Avatar, message } from 'antd'
+import { Menu, Dropdown, Layout, Avatar, message } from 'antd'
 import { SettingOutlined,EditOutlined,UserOutlined,LogoutOutlined} from '@ant-design/icons';
 
 import './AppHeader.less'
@@ -9,8 +9,8 @@ const { Header } = Layout;
 
 class AppHeader extends Component {
     loginOut = () => {
-        localStorage.clear()
-        this.props.history.push('/login')
+        localStorage.removeItem('token')
+        this.props.history.replace('/login')
         message.success('登出成功!')
     }
 

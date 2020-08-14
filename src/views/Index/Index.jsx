@@ -6,11 +6,11 @@ class Index extends Component {
 
     async componentDidMount(){
         const params = {
-            username:'admin1',
+            username:'user',
             password:'123456'
         }
         const res = await login(params)
-        // console.log(res);
+        console.log(res);
     }
 
     render() {

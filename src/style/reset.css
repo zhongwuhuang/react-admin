@@ -40,7 +40,7 @@ a{
 .flex_start{
     display:flex;
     align-items:center;
-    justify-content:start;
+    justify-content:flex-start;
 }
 .flex_around{
     display:flex;
