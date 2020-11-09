@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
-import * as icons from '@ant-design/icons';
+import * as Icons from '@ant-design/icons';
 import './AppAside.less'
 
 const { Sider } = Layout;
@@ -66,7 +66,7 @@ class AppAside extends Component {
 
     // React.createElement（ 节点名称 ，节点属性集合，内容集合 ）
     iconBC = (name) => {
-        return React.createElement(icons && icons[name],{style:{fontSize:'16px'}})
+        return React.createElement(Icons && Icons[name],{style:{fontSize:'16px'}})
     }
 
     // 循环遍历导航
